@@ -142,7 +142,7 @@ namespace CPE200Lab1
                     else if (operat_2 == btnMinus.Text) { result = num1 - num2; }
                     else if (operat_2 == btnDivide.Text) { result = num1 / num2; }
                     else if (operat_2 == btnMultiply.Text) { result = num1 * num2; }
-                    else if (operat_2 == btnPercent.Text) { result = num1 % num2; }
+                    else if (operat_2 == btnPercent.Text) { result = (num1/100)*num2; }
                     //MessageBox.Show(num1 +" "+ operat_2 +" "+ num2+" = "+result);
                     if (String.Format("{0:0.#}", result).Length <= 8)
                     {
