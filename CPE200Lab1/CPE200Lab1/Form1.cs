@@ -12,7 +12,9 @@ namespace CPE200Lab1
 {
     public partial class Form1 : Form
     {
-        bool ck_dot = false;
+        string operate = "",num1="",num2="";
+        double temp;
+        bool cK_show = false;
 
         public Form1()
         {
@@ -21,161 +23,166 @@ namespace CPE200Lab1
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            lblDisplay.Text = 0+"";
-            ck_dot = false;
+            operate = "";
+            num1 = "";
+            num2 = "";
+            lblDisplay.Text = 0 + "";
+            cK_show = false;
+
+            btn0.Enabled = true;
+            btn1.Enabled = true;
+            btn2.Enabled = true;
+            btn3.Enabled = true;
+            btn4.Enabled = true;
+            btn5.Enabled = true;
+            btn6.Enabled = true;
+            btn7.Enabled = true;
+            btn8.Enabled = true;
+            btn9.Enabled = true;
+            btnBack.Enabled = true;
+            btnClear.Enabled = true;
+            btnDivide.Enabled = true;
+            btnDot.Enabled = true;
+            btnEqual.Enabled = true;
+            btnMinus.Enabled = true;
+            btnMultiply.Enabled = true;
+            btnPercent.Enabled = true;
+            btnPlus.Enabled = true;
+            btnSign.Enabled = true;
         }
 
         private void btnSign_Click(object sender, EventArgs e)
         {
-            char[] sigh = { btnPlus.Text.ToCharArray()[0], btnMinus.Text.ToCharArray()[0], btnDivide.Text.ToCharArray()[0], btnMultiply.Text.ToCharArray()[0], btnPercent.Text.ToCharArray()[0], btnEqual.Text.ToCharArray()[0] };
-            int index = lblDisplay.Text.LastIndexOfAny(sigh);
-            if (index>=1)
+            if(float.Parse(lblDisplay.Text)>0)
             {
-                if (lblDisplay.Text.LastIndexOf('n') <= 0)
-                {
-                    lblDisplay.Text = lblDisplay.Text.Insert(index+1, "n");
-                }
-                else if (lblDisplay.Text.LastIndexOf('n') >= 1)
-                {
-                    lblDisplay.Text = lblDisplay.Text.Substring(0,index+1) + lblDisplay.Text.Substring(index+2, lblDisplay.Text.Length - index - 2);
-                }
+                lblDisplay.Text = "-" + lblDisplay.Text;
             }
-            else if(index<=-1)
+            else if(float.Parse(lblDisplay.Text) < 0)
             {
-                if (lblDisplay.Text.IndexOf('n') == -1)
-                {
-                    lblDisplay.Text = "n" + lblDisplay.Text;
-                }
-                else if (lblDisplay.Text.IndexOf('n') >= 0)
-                {
-                    lblDisplay.Text = lblDisplay.Text.Substring(1, lblDisplay.Text.Length - 1);
-                }
+                lblDisplay.Text = lblDisplay.Text.Substring(1, lblDisplay.Text.Length - 1);
             }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            if (lblDisplay.Text.Length>0 && lblDisplay.Text != "0")
+            if (cK_show == false)
             {
-                char[] sigh = { btnPlus.Text.ToCharArray()[0], btnMinus.Text.ToCharArray()[0], btnDivide.Text.ToCharArray()[0], btnMultiply.Text.ToCharArray()[0], btnPercent.Text.ToCharArray()[0], btnEqual.Text.ToCharArray()[0]};
-                if (lblDisplay.Text.Substring(lblDisplay.Text.Length - 1,1).LastIndexOfAny(sigh)>=0)
+                if (lblDisplay.Text.Length == 1)
                 {
-                    ck_dot = true;
+                    lblDisplay.Text = "0";
                 }
-                else if(lblDisplay.Text.Substring(lblDisplay.Text.Length - 1,1) == ".")
+                else if (lblDisplay.Text.Length > 1)
                 {
-                    ck_dot = false;
-                }
-                lblDisplay.Text =  lblDisplay.Text.Substring(0, lblDisplay.Text.Length-1);
-                if (lblDisplay.Text.Length==0)
-                {
-                    lblDisplay.Text = 0 + "";
+                    lblDisplay.Text = lblDisplay.Text.Substring(0, lblDisplay.Text.Length - 1);
                 }
             }
-
         }
-       
+
         private void btnX_Click(object sender, EventArgs e)
         {
+            Button btn = (Button)sender;
             if (lblDisplay.Text.Length < 8)
             {
-                Button btn = (Button)sender;
-                char[] sigh = { btnPlus.Text.ToCharArray()[0], btnMinus.Text.ToCharArray()[0], btnDivide.Text.ToCharArray()[0], btnMultiply.Text.ToCharArray()[0], btnPercent.Text.ToCharArray()[0], btnEqual.Text.ToCharArray()[0] };
-                if (lblDisplay.Text == "MAX" || lblDisplay.Text == "∞" || lblDisplay.Text == "NaN" || lblDisplay.Text == "")
+                if (lblDisplay.Text == "0" || cK_show == true)
                 {
-                    lblDisplay.Text = "0";
-                }
-
-                if (lblDisplay.Text.LastIndexOfAny(sigh) == -1)
-                {
-                    String temp;
-                    temp = lblDisplay.Text.Replace("n", "");
-                    if (temp.Length == 1 && temp == "0")
-                    {
-                        lblDisplay.Text = btn.Text;
-                    }
-                    else if (temp.Length >= 1 && temp != "0")
-                    {
-                        lblDisplay.Text += btn.Text;
-                    }
-                }
-                else if (lblDisplay.Text.LastIndexOfAny(sigh) >= 0)
-                {
-                    String temp;
-                    temp = lblDisplay.Text.Substring(lblDisplay.Text.LastIndexOfAny(sigh) + 1, lblDisplay.Text.Length - lblDisplay.Text.LastIndexOfAny(sigh) - 1);
-                    if (temp.Length <= 1 && (temp == "0" || temp == ""))
-                    {
-                        lblDisplay.Text = lblDisplay.Text.Substring(0, lblDisplay.Text.LastIndexOfAny(sigh) + 1) + btn.Text;
-                    }
-                    else if (temp.Length >= 1 && temp != "0")
-                    {
-                        lblDisplay.Text += btn.Text;
-                    }
-                }
-            }
-        }
-
-        private void btnOpe_Click(object sender, EventArgs e)
-        {
-            if (lblDisplay.Text.Length < 9)
-            {
-                if (lblDisplay.Text == "MAX" || lblDisplay.Text == "∞" || lblDisplay.Text == "NaN" || lblDisplay.Text == "")
-                {
-                    lblDisplay.Text = "0";
-                }
-                ck_dot = false;
-                Button btn = (Button)sender;
-                string operat = lblDisplay.Text.Substring(lblDisplay.Text.Length - 1, 1);
-                char[] sigh = { btnPlus.Text.ToCharArray()[0], btnMinus.Text.ToCharArray()[0], btnDivide.Text.ToCharArray()[0], btnMultiply.Text.ToCharArray()[0], btnPercent.Text.ToCharArray()[0], btnEqual.Text.ToCharArray()[0] };
-                if (lblDisplay.Text.LastIndexOfAny(sigh) >= 1 && btn.Text.LastIndexOfAny(sigh) >= 0)
-                {
-                    string str_num1 = lblDisplay.Text.Substring(0, lblDisplay.Text.LastIndexOfAny(sigh));
-                    string str_num2 = lblDisplay.Text.Substring(lblDisplay.Text.LastIndexOfAny(sigh) + 1, lblDisplay.Text.Length - lblDisplay.Text.LastIndexOfAny(sigh) - 1);
-                    str_num1 = str_num1.Replace("n", "-");
-                    str_num2 = str_num2.Replace("n", "-");
-                    if (str_num2 == "") { str_num2 += "0"; }
-                    float num1 = float.Parse(str_num1);
-                    float num2 = float.Parse(str_num2);
-                    float result = 0;
-                    string operat_2 = lblDisplay.Text.Substring(lblDisplay.Text.LastIndexOfAny(sigh), 1);
-                    if (operat_2 == btnPlus.Text) { result = num1 + num2; }
-                    else if (operat_2 == btnMinus.Text) { result = num1 - num2; }
-                    else if (operat_2 == btnDivide.Text) { result = num1 / num2; }
-                    else if (operat_2 == btnMultiply.Text) { result = num1 * num2; }
-                    else if (operat_2 == btnPercent.Text) { result = (num1/100)*num2; }
-                    //MessageBox.Show(num1 +" "+ operat_2 +" "+ num2+" = "+result);
-                    if (String.Format("{0:0.#}", result).Length <= 8)
-                    {
-                        String temp = String.Format("{0:0.#}", result);
-                        temp += btn.Text;
-                        lblDisplay.Text = temp.Replace("=", "");
-                    }
-                    else if (String.Format("{0:0.#}", result).Length > 8)
-                    {
-                        lblDisplay.Text = "MAX";
-                    }
-                }
-                else if (operat == btnPlus.Text || operat == btnMinus.Text || operat == btnDivide.Text || operat == btnMultiply.Text || operat == btnPercent.Text)
-                {
-                    lblDisplay.Text = lblDisplay.Text.Substring(0, lblDisplay.Text.Length - 1) + btn.Text;
+                    lblDisplay.Text = btn.Text;
                 }
                 else
                 {
-                    if (btn.Text != btnEqual.Text)
-                    {
-                        lblDisplay.Text += btn.Text;
-                    }
+                    lblDisplay.Text += btn.Text;
                 }
+                cK_show = false;
             }
         }
 
         private void btnDot_Click(object sender, EventArgs e)
         {
-            char[] sigh = { btnPlus.Text.ToCharArray()[0], btnMinus.Text.ToCharArray()[0], btnDivide.Text.ToCharArray()[0], btnMultiply.Text.ToCharArray()[0], btnPercent.Text.ToCharArray()[0], btnEqual.Text.ToCharArray()[0],'.' };
-            if (ck_dot==false && lblDisplay.Text.Substring(lblDisplay.Text.Length-1,1).IndexOfAny(sigh)!=0)
+            if (lblDisplay.Text.IndexOf(".") <= 0)
             {
                 lblDisplay.Text += ".";
-                ck_dot = true;
+            }
+        }
+
+        private void btnOpe_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            fun_get_num();
+
+            if(operate!="" && num1 != "" && num2 != "" && cK_show == false)
+            {
+                fun_operate(double.Parse(num1), double.Parse(num2));
+                temp = double.Parse(num2);
+                num2 = "";
+                cK_show = true;
+            }
+            if (operate != btn.Text) { num2 = ""; }
+            operate = btn.Text;
+
+            if (cK_show == false) { lblDisplay.Text = "0"; }
+            //MessageBox.Show(num1 + operate + num2);
+        }
+
+        private void btnEqual_Click(object sender, EventArgs e)
+        {
+            fun_get_num();
+            if (num2 != "")
+            {
+                fun_operate(double.Parse(num1),double.Parse(num2));
+                //MessageBox.Show(num1 + operate + num2);
+                cK_show = true;
+            }
+            else if(num2 =="")
+            {
+                fun_operate(double.Parse(num1),temp);
+                //MessageBox.Show(num1 + operate + temp);
+            }
+            
+        }
+
+        private void fun_operate(double n1, double n2)
+        {
+            if (operate == "+") { num1 = String.Format("{0:0.#}",(n1 + n2)); }
+            else if (operate == "-") { num1 = String.Format("{0:0.#}", (n1 - n2)); }
+            else if (operate == "X") { num1 = String.Format("{0:0.#}", (n1 * n2)); }
+            else if (operate == "÷") { num1 = String.Format("{0:0.#}", (n1 / n2)); }
+            if (num1.Length > 8) { num1 = "MAX"; }
+            lblDisplay.Text = num1;
+   
+            if (num1 == "NaN" || num1 == "∞" || num1 == "MAX")
+            {
+                num1 = "0";
+                btn0.Enabled = false;
+                btn1.Enabled = false;
+                btn2.Enabled = false;
+                btn3.Enabled = false;
+                btn4.Enabled = false;
+                btn5.Enabled = false;
+                btn6.Enabled = false;
+                btn7.Enabled = false;
+                btn8.Enabled = false;
+                btn9.Enabled = false;
+                btnBack.Enabled = false;
+                btnClear.Enabled = true;
+                btnDivide.Enabled = false;
+                btnDot.Enabled = false;
+                btnEqual.Enabled = false;
+                btnMinus.Enabled = false;
+                btnMultiply.Enabled = false;
+                btnPercent.Enabled = false;
+                btnPlus.Enabled = false;
+                btnSign.Enabled = false;
+            }
+        }
+
+        private void fun_get_num()
+        {
+            if (num1 == "")
+            {
+                num1 = lblDisplay.Text;
+            }
+            else if (num2 == "")
+            {
+                num2 = lblDisplay.Text;
             }
         }
     }
