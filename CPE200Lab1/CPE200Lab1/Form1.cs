@@ -14,7 +14,7 @@ namespace CPE200Lab1
     {
         string operate = "",num1="",num2="";
         double temp;
-        bool cK_show = false;
+        bool cK_show = false,ck_preset = false;
 
         public Form1()
         {
@@ -28,6 +28,7 @@ namespace CPE200Lab1
             num2 = "";
             lblDisplay.Text = 0 + "";
             cK_show = false;
+            ck_preset = false;
 
             btn0.Enabled = true;
             btn1.Enabled = true;
@@ -107,6 +108,12 @@ namespace CPE200Lab1
         {
             Button btn = (Button)sender;
             fun_get_num();
+            if (ck_preset==true)
+            {
+                num1 = num2;
+                num2 = "";
+                ck_preset = false;
+            }
 
             if(operate!="" && num1 != "" && num2 != "" && cK_show == false)
             {
@@ -116,7 +123,7 @@ namespace CPE200Lab1
                 cK_show = true;
             }
             if (operate != btn.Text) { num2 = ""; }
-            operate = btn.Text;
+            operate = btn.Text; 
 
             if (cK_show == false) { lblDisplay.Text = "0"; }
             //MessageBox.Show(num1 + operate + num2);
@@ -141,13 +148,39 @@ namespace CPE200Lab1
 
         private void fun_operate(double n1, double n2)
         {
-            if (operate == "+") { num1 = String.Format("{0:0.#}",(n1 + n2)); }
-            else if (operate == "-") { num1 = String.Format("{0:0.#}", (n1 - n2)); }
-            else if (operate == "X") { num1 = String.Format("{0:0.#}", (n1 * n2)); }
-            else if (operate == "÷") { num1 = String.Format("{0:0.#}", (n1 / n2)); }
+            if (operate == "+") { num1 = (n1 + n2).ToString(); }
+            else if (operate == "-") { num1 = (n1 - n2).ToString(); }
+            else if (operate == "X") { num1 =(n1 * n2).ToString(); }
+            else if (operate == "÷") { num1 = (n1 / n2).ToString(); }
+            show_text();
+        }
+
+        private void btnPercent_Click(object sender, EventArgs e)
+        {
+            fun_get_num();
+            if (num2 == "")
+            {
+                lblDisplay.Text = "0";
+                num1 = "";
+            }
+            else if (num2 != "")
+            {
+                string temp_2 = num1;
+                num1 =  ((double.Parse(num1) / 100) * double.Parse(num2)).ToString();
+                temp = double.Parse(num2);
+                show_text();
+                num1 = temp_2;
+                num2 = "";
+                cK_show = true;
+                ck_preset = true;
+            }
+        }
+
+        private void show_text()
+        {
             if (num1.Length > 8) { num1 = "MAX"; }
             lblDisplay.Text = num1;
-   
+
             if (num1 == "NaN" || num1 == "∞" || num1 == "MAX")
             {
                 num1 = "0";
