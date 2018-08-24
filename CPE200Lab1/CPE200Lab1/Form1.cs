@@ -13,7 +13,7 @@ namespace CPE200Lab1
     public partial class Form1 : Form
     {
         string operate = "",num1="",num2="";
-        double temp;
+        float temp;
         bool cK_show = false,ck_preset = false;
 
         public Form1()
@@ -117,8 +117,8 @@ namespace CPE200Lab1
 
             if(operate!="" && num1 != "" && num2 != "" && cK_show == false)
             {
-                fun_operate(double.Parse(num1), double.Parse(num2));
-                temp = double.Parse(num2);
+                fun_operate(float.Parse(num1), float.Parse(num2));
+                temp = float.Parse(num2);
                 num2 = "";
                 cK_show = true;
             }
@@ -134,19 +134,19 @@ namespace CPE200Lab1
             fun_get_num();
             if (num2 != "")
             {
-                fun_operate(double.Parse(num1),double.Parse(num2));
+                fun_operate(float.Parse(num1),float.Parse(num2));
                 //MessageBox.Show(num1 + operate + num2);
                 cK_show = true;
             }
             else if(num2 =="")
             {
-                fun_operate(double.Parse(num1),temp);
+                fun_operate(float.Parse(num1),temp);
                 //MessageBox.Show(num1 + operate + temp);
             }
             
         }
 
-        private void fun_operate(double n1, double n2)
+        private void fun_operate(float n1, float n2)
         {
             if (operate == "+") { num1 = (n1 + n2).ToString(); }
             else if (operate == "-") { num1 = (n1 - n2).ToString(); }
@@ -167,7 +167,7 @@ namespace CPE200Lab1
             {
                 string temp_2 = num1;
                 num1 =  ((double.Parse(num1) / 100) * double.Parse(num2)).ToString();
-                temp = double.Parse(num2);
+                temp = float.Parse(num2);
                 show_text();
                 num1 = temp_2;
                 num2 = "";
@@ -178,10 +178,9 @@ namespace CPE200Lab1
 
         private void show_text()
         {
-            if (num1.Length > 8) { num1 = "MAX"; }
             lblDisplay.Text = num1;
 
-            if (num1 == "NaN" || num1 == "∞" || num1 == "MAX")
+            if (num1 == "NaN" || num1 == "∞")
             {
                 num1 = "0";
                 btn0.Enabled = false;
