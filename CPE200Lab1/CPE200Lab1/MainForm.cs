@@ -18,6 +18,7 @@ namespace CPE200Lab1
         private bool isAfterEqual;
         private string firstOperand;
         private string operate;
+        private string memo;
         private String operate_temp;
         private CalculatorEngine engine;
 
@@ -39,6 +40,7 @@ namespace CPE200Lab1
             //new CalculatorEngine() => instantiate an object
             //reference to that object with engine variable
             // LHS = RHS
+            memo = "0";
             engine = new CalculatorEngine();
         }
 
@@ -207,6 +209,38 @@ namespace CPE200Lab1
         private void btnPercent_Click(object sender, EventArgs e)
         {
             lblDisplay.Text = Convert.ToDouble(firstOperand) * Convert.ToDouble(lblDisplay.Text) * 0.01+"";
+        }
+
+        private void memory_Click(object sender, EventArgs e)
+        {
+            string action = ((Button)sender).Text;
+            if (memo.Length > 8)
+            {
+                lblDisplay.Text = "Error";
+                memo = "0";
+            }
+            else
+            {
+                switch (action)
+                {
+                    case "MC":
+                        memo = "0";
+                        break;
+                    case "MR":
+                        lblDisplay.Text = memo;
+                        break;
+                    case "MS":
+                        memo = lblDisplay.Text;
+                        break;
+                    case "M+":
+                        memo = (Convert.ToDouble(memo) + Convert.ToDouble(lblDisplay.Text)).ToString();
+                        break;
+                    case "M-":
+                        memo = (Convert.ToDouble(memo) - Convert.ToDouble(lblDisplay.Text)).ToString();
+                        break;
+                }
+                isAfterOperater = true;
+            }
         }
     }
 }
