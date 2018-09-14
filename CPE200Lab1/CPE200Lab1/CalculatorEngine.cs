@@ -59,7 +59,15 @@ namespace CPE200Lab1
                         // calculate remaining space for fractional part.
                         remainLength = maxOutputSize - parts[0].Length - 1;
                         // trim the fractional part gracefully. =
-                        return result.ToString("N" + remainLength);
+                        if (parts.Length < 2)
+                        {
+                            return parts[0];
+                        }
+                        else
+                        {
+                            return parts[0] + "." + Convert.ToInt64(parts[1]).ToString();
+                        }
+                        //return result.ToString("N" + remainLength);
                     }
                 case "1/x":
                     if(operand != "0")
@@ -79,7 +87,15 @@ namespace CPE200Lab1
                         // calculate remaining space for fractional part.
                         remainLength = maxOutputSize - parts[0].Length - 1;
                         // trim the fractional part gracefully. =
-                        return result.ToString("N" + remainLength);
+                        if (parts.Length < 2)
+                        {
+                            return parts[0];
+                        }
+                        else
+                        {
+                            return parts[0] + "." + Convert.ToInt64(parts[1]).ToString();
+                        }
+                        //return result.ToString("N" + remainLength);
                     }
                     break;
             }
@@ -105,8 +121,11 @@ namespace CPE200Lab1
                         int remainLength;
 
                         result = (Convert.ToDouble(firstOperand) / Convert.ToDouble(secondOperand));
+
                         // split between integer part and fractional part
                         parts = result.ToString().Split('.');
+
+                        Console.WriteLine(parts.Length+"|"+parts[0]);
                         // if integer part length is already break max output, return error
                         if (parts[0].Length > maxOutputSize)
                         {
@@ -115,7 +134,15 @@ namespace CPE200Lab1
                         // calculate remaining space for fractional part.
                         remainLength = maxOutputSize - parts[0].Length - 1;
                         // trim the fractional part gracefully. =
-                        return result.ToString("N" + remainLength);
+                        if (parts.Length < 2)
+                        {
+                            return parts[0];
+                        }
+                        else
+                        {
+                            return parts[0] + "." + Convert.ToInt64(parts[1]).ToString();
+                        }
+                        //return result.ToString("N" + remainLength);
                     }
                     break;
                 case "%":
