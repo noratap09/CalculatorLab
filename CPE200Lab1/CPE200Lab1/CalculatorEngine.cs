@@ -14,7 +14,7 @@ namespace CPE200Lab1
             return Double.TryParse(str, out retNum);
         }
 
-        private bool isOperator(string str)
+        public bool isOperator(string str)
         {
             switch(str) {
                 case "+":
@@ -59,15 +59,8 @@ namespace CPE200Lab1
                         // calculate remaining space for fractional part.
                         remainLength = maxOutputSize - parts[0].Length - 1;
                         // trim the fractional part gracefully. =
-                        if (parts.Length < 2)
-                        {
-                            return parts[0];
-                        }
-                        else
-                        {
-                            return parts[0] + "." + Convert.ToInt64(parts[1]).ToString();
-                        }
-                        //return result.ToString("N" + remainLength);
+ 
+                        return result.ToString("G" + remainLength);
                     }
                 case "1/x":
                     if(operand != "0")
@@ -87,15 +80,8 @@ namespace CPE200Lab1
                         // calculate remaining space for fractional part.
                         remainLength = maxOutputSize - parts[0].Length - 1;
                         // trim the fractional part gracefully. =
-                        if (parts.Length < 2)
-                        {
-                            return parts[0];
-                        }
-                        else
-                        {
-                            return parts[0] + "." + Convert.ToInt64(parts[1]).ToString();
-                        }
-                        //return result.ToString("N" + remainLength);
+   
+                        return result.ToString("G" + remainLength);
                     }
                     break;
             }
@@ -134,15 +120,8 @@ namespace CPE200Lab1
                         // calculate remaining space for fractional part.
                         remainLength = maxOutputSize - parts[0].Length - 1;
                         // trim the fractional part gracefully. =
-                        if (parts.Length < 2)
-                        {
-                            return parts[0];
-                        }
-                        else
-                        {
-                            return parts[0] + "." + Convert.ToInt64(parts[1]).ToString();
-                        }
-                        //return result.ToString("N" + remainLength);
+     
+                         return result.ToString("G" + remainLength);
                     }
                     break;
                 case "%":
