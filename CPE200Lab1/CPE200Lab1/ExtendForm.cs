@@ -30,6 +30,7 @@ namespace CPE200Lab1
                 case '-':
                 case 'X':
                 case '÷':
+                case '%':
                     return true;
             }
             return false;
@@ -65,8 +66,38 @@ namespace CPE200Lab1
             string current = lblDisplay.Text;
             if (current[current.Length - 1] != ' ' || isOperator(current[current.Length - 2]))
             {
+                /*
                 lblDisplay.Text += " " + ((Button)sender).Text + " ";
                 isSpaceAllowed = false;
+                */
+                if(lblDisplay.Text.Last()!=' ')
+                {
+                    lblDisplay.Text += " " + ((Button)sender).Text + " ";
+                    isSpaceAllowed = false;
+                }
+                else
+                {
+                    lblDisplay.Text += ((Button)sender).Text + " ";
+                    isSpaceAllowed = false;
+                }
+            }
+            if(((Button)sender).Text=="%" && engine.GetType().Name == "CalculatorEngine")//เพิ่มมา %
+            {
+                double result;
+                int index1,index2;
+                index1 = lblDisplay.Text.LastIndexOfAny("+-X÷".ToCharArray());
+                index2 = lblDisplay.Text.LastIndexOfAny("%".ToCharArray());
+                result = Convert.ToDouble(lblDisplay.Text.Substring(index1+1, index2-index1-1));
+                result = result * 0.01;
+                lblDisplay.Text = lblDisplay.Text.Substring(0, index1 + 1) + " " + result.ToString();
+                if (index1<0)
+                {
+                    lblDisplay.Text = "0";
+                }
+                if (result.ToString().IndexOf(".") >= 0)
+                {
+                    isContainDot = true;
+                }
             }
         }
 
@@ -108,6 +139,11 @@ namespace CPE200Lab1
             } else
             {
                 lblDisplay.Text = result;
+            }
+            //เพิ่มมา
+            if (lblDisplay.Text.IndexOf(".") >= 0)
+            {
+                isContainDot = true;
             }
         }
 
@@ -163,6 +199,36 @@ namespace CPE200Lab1
             {
                 lblDisplay.Text += " ";
                 isSpaceAllowed = false;
+            }
+        }
+
+        //เพิ่มมา
+        private void btnSingleOperator_Click(object sender, EventArgs e)
+        {
+            if (lblDisplay.Text is "Error")
+            {
+                return;
+            }
+            if (engine.GetType().Name == "CalculatorEngine")
+            {
+                lblDisplay.Text = engine.unaryCalculate(((Button)sender).Text, lblDisplay.Text);
+                if (lblDisplay.Text.IndexOf(".") >= 0)
+                {
+                    isContainDot = true;
+                }
+            }
+            else
+            {
+                if (lblDisplay.Text.Last() != ' ')
+                {
+                    lblDisplay.Text += " " + ((Button)sender).Text + " ";
+                    isSpaceAllowed = false;
+                }
+                else
+                {
+                    lblDisplay.Text += ((Button)sender).Text + " ";
+                    isSpaceAllowed = false;
+                }
             }
         }
     }
