@@ -7,18 +7,20 @@ using System.Collections;
 
 namespace CPE200Lab1
 {
-    public class RPNCalculatorEngine : CalculatorEngine
+    public class RPNCalculatorEngine : BasicCalculatorEngine
     {
+        protected Stack mystack;
+
         /// <summary>
         /// Use for Calculate with RPN Calculator style
         /// </summary>
         /// <param name="str">INPUT is String</param>
         /// <returns>OUTPUT is String</returns>
-        public string Process(string str)
+        public string calculate(string str)
         {
             try
             {
-                Stack temp = new Stack();
+                mystack = new Stack();
                 string[] parts;
                 if (str.Last() != ' ')
                 {
@@ -29,37 +31,37 @@ namespace CPE200Lab1
                 {
                     if (isOperator(parts[i]) == false && isSingle_Operator(parts[i]) == false)
                     {
-                        temp.Push(parts[i]);
+                        mystack.Push(parts[i]);
                     }
                     else if (isOperator(parts[i]) == true)
                     {
-                        if (temp.Count < 2)
+                        if (mystack.Count < 2)
                         {
                             return "E";
                         }
                         string firstOperand = "0";
                         if (parts[i] != "%")
                         {
-                            firstOperand = temp.Pop().ToString();
+                            firstOperand = mystack.Pop().ToString();
                         }
-                        string secondOperand = temp.Pop().ToString();
-                        temp.Push(calculate(parts[i], secondOperand, firstOperand, 4));
+                        string secondOperand = mystack.Pop().ToString();
+                        mystack.Push(calculate(parts[i], secondOperand, firstOperand, 4));
                     }
                     else if (isSingle_Operator(parts[i]) == true)
                     {
-                        if (temp.Count < 1)
+                        if (mystack.Count < 1)
                         {
                             return "E";
                         }
-                        string firstOperand = temp.Pop().ToString();
-                        temp.Push(unaryCalculate(parts[i], firstOperand, 4));
+                        string firstOperand = mystack.Pop().ToString();
+                        mystack.Push(Calculate(parts[i], firstOperand, 4));
                     }
-                    Console.WriteLine(temp.Count.ToString());
+                    Console.WriteLine(mystack.Count.ToString());
                 }
-                Console.WriteLine(temp.Count.ToString());
-                if (temp.Count == 1)
+                Console.WriteLine(mystack.Count.ToString());
+                if (mystack.Count == 1)
                 {
-                    return temp.Peek().ToString();
+                    return mystack.Peek().ToString();
                 }
                 // your code here
 

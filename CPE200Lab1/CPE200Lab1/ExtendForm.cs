@@ -143,7 +143,7 @@ namespace CPE200Lab1
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
-                string result = engine.Process(lblDisplay.Text);
+                string result = engine.calculate(lblDisplay.Text);
                 if (result is "E")
                 {
                     lblDisplay.Text = "Error";
@@ -222,7 +222,7 @@ namespace CPE200Lab1
             }
             if (engine.GetType().Name == "CalculatorEngine")
             {
-                lblDisplay.Text = engine.unaryCalculate(((Button)sender).Text, lblDisplay.Text);
+                lblDisplay.Text = engine.Calculate(((Button)sender).Text, lblDisplay.Text);
                 if (lblDisplay.Text.IndexOf(".") >= 0)
                 {
                     isContainDot = true;
