@@ -64,40 +64,43 @@ namespace CPE200Lab1
             isNumberPart = false;
             isContainDot = false;
             string current = lblDisplay.Text;
-            if (current[current.Length - 1] != ' ' || isOperator(current[current.Length - 2]))
+            try
             {
-                /*
-                lblDisplay.Text += " " + ((Button)sender).Text + " ";
-                isSpaceAllowed = false;
-                */
-                if(lblDisplay.Text.Last()!=' ')
+                if (current[current.Length - 1] != ' ' || isOperator(current[current.Length - 2]))
                 {
-                    lblDisplay.Text += " " + ((Button)sender).Text + " ";
-                    isSpaceAllowed = false;
+                    if (lblDisplay.Text.Last() != ' ')
+                    {
+                        lblDisplay.Text += " " + ((Button)sender).Text + " ";
+                        isSpaceAllowed = false;
+                    }
+                    else
+                    {
+                        lblDisplay.Text += ((Button)sender).Text + " ";
+                        isSpaceAllowed = false;
+                    }
                 }
-                else
+                if (((Button)sender).Text == "%" && engine.GetType().Name == "CalculatorEngine")//เพิ่มมา %
                 {
-                    lblDisplay.Text += ((Button)sender).Text + " ";
-                    isSpaceAllowed = false;
+                    double result;
+                    int index1, index2;
+                    index1 = lblDisplay.Text.LastIndexOfAny("+-X÷".ToCharArray());
+                    index2 = lblDisplay.Text.LastIndexOfAny("%".ToCharArray());
+                    result = Convert.ToDouble(lblDisplay.Text.Substring(index1 + 1, index2 - index1 - 1));
+                    result = result * 0.01;
+                    lblDisplay.Text = lblDisplay.Text.Substring(0, index1 + 1) + " " + result.ToString();
+                    if (index1 < 0)
+                    {
+                        lblDisplay.Text = "0";
+                    }
+                    if (result.ToString().IndexOf(".") >= 0)
+                    {
+                        isContainDot = true;
+                    }
                 }
             }
-            if(((Button)sender).Text=="%" && engine.GetType().Name == "CalculatorEngine")//เพิ่มมา %
+            catch(Exception er)
             {
-                double result;
-                int index1,index2;
-                index1 = lblDisplay.Text.LastIndexOfAny("+-X÷".ToCharArray());
-                index2 = lblDisplay.Text.LastIndexOfAny("%".ToCharArray());
-                result = Convert.ToDouble(lblDisplay.Text.Substring(index1+1, index2-index1-1));
-                result = result * 0.01;
-                lblDisplay.Text = lblDisplay.Text.Substring(0, index1 + 1) + " " + result.ToString();
-                if (index1<0)
-                {
-                    lblDisplay.Text = "0";
-                }
-                if (result.ToString().IndexOf(".") >= 0)
-                {
-                    isContainDot = true;
-                }
+                Console.WriteLine(er.ToString());
             }
         }
 
@@ -109,12 +112,20 @@ namespace CPE200Lab1
             }
             // check if the last one is operator
             string current = lblDisplay.Text;
-            if (current[current.Length - 1] is ' ' && current.Length > 2 && isOperator(current[current.Length - 2]))
+            try
             {
-                lblDisplay.Text = current.Substring(0, current.Length - 3);
-            } else
+                if (current[current.Length - 1] is ' ' && current.Length > 2 && isOperator(current[current.Length - 2]))
+                {
+                    lblDisplay.Text = current.Substring(0, current.Length - 3);
+                }
+                else
+                {
+                    lblDisplay.Text = current.Substring(0, current.Length - 1);
+                }
+            }
+            catch (Exception er)
             {
-                lblDisplay.Text = current.Substring(0, current.Length - 1);
+                Console.WriteLine(er.ToString());
             }
             if (lblDisplay.Text is "")
             {
@@ -132,19 +143,19 @@ namespace CPE200Lab1
 
         private void btnEqual_Click(object sender, EventArgs e)
         {
-            string result = engine.Process(lblDisplay.Text);
-            if (result is "E")
-            {
-                lblDisplay.Text = "Error";
-            } else
-            {
-                lblDisplay.Text = result;
-            }
-            //เพิ่มมา
-            if (lblDisplay.Text.IndexOf(".") >= 0)
-            {
-                isContainDot = true;
-            }
+                string result = engine.Process(lblDisplay.Text);
+                if (result is "E")
+                {
+                    lblDisplay.Text = "Error";
+                } else
+                {
+                    lblDisplay.Text = result;
+                }
+                //เพิ่มมา
+                if (lblDisplay.Text.IndexOf(".") >= 0)
+                {
+                    isContainDot = true;
+                }
         }
 
         private void btnSign_Click(object sender, EventArgs e)
