@@ -1,6 +1,6 @@
 ﻿namespace CPE200Lab1
 {
-    partial class ExtendForm
+    partial class view
     {
         /// <summary>
         /// Required designer variable.

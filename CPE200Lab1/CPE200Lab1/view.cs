@@ -10,17 +10,17 @@ using System.Windows.Forms;
 
 namespace CPE200Lab1
 {
-    public partial class ExtendForm : Form
+    public partial class view : Form
     {
         private bool isNumberPart = false;
         private bool isContainDot = false;
         private bool isSpaceAllowed = false;
-        private RPNCalculatorEngine engine;
+        private Controller engine;
 
-        public ExtendForm()
+        public view()
         {
             InitializeComponent();
-            engine = new RPNCalculatorEngine();
+            engine = new Controller();
         }
 
         private bool isOperator(char ch)
